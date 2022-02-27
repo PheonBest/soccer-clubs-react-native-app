@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native'
 
-export default StyleSheet.create({
-  CustomFont: {
-    fontFamily: 'Roboto-Black',
+export const gstyles = StyleSheet.create({
+  bar: {
+    backgroundColor: '#1b3257',
   },
   container: {
     width: '100%',
@@ -12,13 +12,19 @@ export default StyleSheet.create({
 
     alignItems: 'center',
     borderRadius: 5,
+    flex: 1,
+  },
+
+  iconStyle: {
+    fontSize: 40,
+    color: 'black',
   },
 
   container_PRIMARY_NORMAL: {
     backgroundColor: '#3B71F3',
   },
   container_PRIMARY_PRESSED: {
-    backgroundColor: '#0000b5',
+    backgroundColor: '#1b3257',
   },
 
   container_SECONDARY_NORMAL: {
@@ -26,19 +32,26 @@ export default StyleSheet.create({
     borderWidth: 2,
   },
   container_SECONDARY_PRESSED: {
-    borderColor: '#0000b5',
+    borderColor: '#1b3257',
     borderWidth: 2,
   },
 
   container_TERTIARY: {},
 
-  text: {
-    fontWeight: 'bold',
+  title: {
     color: 'white',
+    fontFamily: 'Bold',
+    alignSelf: 'flex-start',
+    fontSize: 24,
+  },
+
+  text: {
+    color: '#fff',
+    fontFamily: 'Regular',
   },
 
   text_SECONDARY: {
-    color: '#3B71F3',
+    color: '#EEE',
   },
 
   text_TERTIARY: {
