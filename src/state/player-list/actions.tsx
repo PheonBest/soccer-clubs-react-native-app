@@ -1,4 +1,4 @@
-import { AddPlayerAction } from '../types'
+import { AddPlayerAction, Player } from '../types'
 
 // Bind each action to a type string
 // (optional if we have only one action as here)
@@ -7,14 +7,8 @@ export enum PLAYER_LIST_ACTION_TYPES {
 }
 
 export const addPlayer = (
-  id: Number,
-  lastname: string,
-  firstname: string,
+  playerData: Player
 ): AddPlayerAction => ({
   type: PLAYER_LIST_ACTION_TYPES.ADD_PLAYER,
-  playerData: {
-    id,
-    lastname,
-    firstname,
-  },
+  playerData: playerData,
 })

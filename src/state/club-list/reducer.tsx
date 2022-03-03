@@ -12,8 +12,7 @@ export const clubList = (
   const newState: ClubListState = cloneDeep(state) // a deep-cloning function
   switch (action.type) {
     case CLUB_LIST_ACTION_TYPES.ADD_CLUB:
-      const { name, logo, country } = (action as AddClubAction).clubData
-      return [...newState, { name, logo, country }]
+      return [...newState, (action as AddClubAction).clubData]
 
     default:
       return state

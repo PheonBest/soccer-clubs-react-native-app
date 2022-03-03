@@ -1,0 +1,10 @@
+{
+  "name": "assets",
+  "version": "1.0.0",
+  "description": "Assets",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "world_countries_lists": "^2.4.0"
+  }
+}

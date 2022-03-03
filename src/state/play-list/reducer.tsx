@@ -11,17 +11,9 @@ export const playList = (
   const newState: PlayListState = cloneDeep(state) // a deep-cloning function
   switch (action.type) {
     case PLAY_LIST_ACTION_TYPES.ADD_PLAY:
-      const {
-        seasonStart,
-        seasonEnd,
-        squadNumber,
-        scoredGoal,
-        playerId,
-        clubName,
-      } = (action as AddPlayAction).playData
       return [
         ...newState,
-        { seasonStart, seasonEnd, squadNumber, scoredGoal, playerId, clubName },
+        (action as AddPlayAction).playData,
       ]
 
     default:

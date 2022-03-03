@@ -1,28 +1,48 @@
+import { ImageProps } from 'react-native'
+
+export type CountryImage = {
+  alpha2: string
+  data: Readonly<ImageProps>
+}
+
+export type Country = {
+  id: Number
+  alpha2: string
+  alpha3: string
+  name: string
+}
+
+export type CountryList = Country[]
+
+// ---------------
+// REDUX
 // Define entities
 export type Player = {
-  id: Number
+  id: string | number[]
   lastname: string
   firstname: string
 }
 
 export type Season = {
-  id: Number
+  id: string | number[]
   start: Date
   end: Date
 }
 
 export type Play = {
-  seasonStart: Date
-  seasonEnd: Date
+  // foreign keys
+  seasonId: string | number[]
+  playerId: string | number[]
+  clubName: string
+
+  // attributes
   squadNumber: Number
   scoredGoal: Number
-  playerId: Number
-  clubName: string
 }
 
 export type Club = {
   name: string
-  logo: string
+  logo: { uri: string } | number
   country: string
 }
 

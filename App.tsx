@@ -1,65 +1,58 @@
-import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Text, View } from 'react-native'
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
+import { LogBox, Text, View } from 'react-native'
 import { gstyles } from './src/utils/global-styles'
-import {
-  MontserratAlternates_100Thin,
-  MontserratAlternates_100Thin_Italic,
-  MontserratAlternates_200ExtraLight,
-  MontserratAlternates_200ExtraLight_Italic,
-  MontserratAlternates_300Light,
-  MontserratAlternates_300Light_Italic,
-  MontserratAlternates_400Regular,
-  MontserratAlternates_400Regular_Italic,
-  MontserratAlternates_500Medium,
-  MontserratAlternates_500Medium_Italic,
-  MontserratAlternates_600SemiBold,
-  MontserratAlternates_600SemiBold_Italic,
-  MontserratAlternates_700Bold,
-  MontserratAlternates_700Bold_Italic,
-  MontserratAlternates_800ExtraBold,
-  MontserratAlternates_800ExtraBold_Italic,
-  MontserratAlternates_900Black,
-  MontserratAlternates_900Black_Italic,
-} from '@expo-google-fonts/montserrat-alternates'
-import {
-  Roboto_100Thin,
-  Roboto_100Thin_Italic,
-  Roboto_300Light,
-  Roboto_300Light_Italic,
-  Roboto_400Regular,
-  Roboto_400Regular_Italic,
-  Roboto_500Medium,
-  Roboto_500Medium_Italic,
-  Roboto_700Bold,
-  Roboto_700Bold_Italic,
-  Roboto_900Black,
-  Roboto_900Black_Italic,
-} from '@expo-google-fonts/roboto'
+import { MontserratAlternates_700Bold } from '@expo-google-fonts/montserrat-alternates'
+import { Roboto_400Regular } from '@expo-google-fonts/roboto'
 import { useFonts } from 'expo-font'
 import AppLoading from 'expo-app-loading'
 import { NavigationContainer } from '@react-navigation/native'
-import Players from './src/screens/players'
-
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import {
-  faHouse,
-  faFutbolBall,
-  faBars,
-  faPeopleCarry,
-} from '@fortawesome/free-solid-svg-icons'
-import { ClubList } from './src/components/club-list/club-list'
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
-
-const Bar = createMaterialBottomTabNavigator()
+// free icon library:
+// https://fontawesome.com/v6/search?m=free
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { store } from './src/state/store'
 import { Provider } from 'react-redux'
 import Home from './src/screens/home'
+import Splash from './src/screens/splash'
+import {
+  createStackNavigator,
+  StackNavigationProp,
+} from '@react-navigation/stack'
+import clubListAdd from './src/components/club-list/club-list-add'
+import ClubListItem from './src/components/club-list/club-list-item'
+import React from 'react'
+import { StoriesLoader } from './src/utils/stories-loader'
+import PlayerListItem from './src/components/player-list/player-list-item'
 
+LogBox.ignoreLogs([
+  "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
+])
+LogBox.ignoreLogs(['Remote debugger'])
+
+const RootStack = createStackNavigator()
+
+interface Props {
+  navigation: StackNavigationProp<any, any>
+}
+
+function HomeTabs({ navigation }: Props) {
+  return (
+    <>
+      <View
+        style={[
+          gstyles.container,
+          gstyles.container_PRIMARY_NORMAL,
+          { height: 70, marginTop: 0, paddingTop: 25 },
+        ]}
+      >
+        <Text style={gstyles.title_LEFT}>Sportyma</Text>
+      </View>
+
+      <Home navigation={navigation} />
+    </>
+  )
+}
 export default function App() {
-  let [fontsLoaded, error] = useFonts({
+  let [fontsLoaded] = useFonts({
     Regular: Roboto_400Regular,
     Bold: MontserratAlternates_700Bold,
   })
@@ -67,48 +60,50 @@ export default function App() {
   if (!fontsLoaded) {
     return <AppLoading />
   }
+  // @ts-ignore
   return (
     <Provider store={store}>
+      <StoriesLoader />
+
       <SafeAreaProvider>
         <NavigationContainer>
-          <Bar.Navigator
-            initialRouteName="Home"
-            activeColor="#f0edf6"
-            inactiveColor="#999999"
-            barStyle={gstyles.bar}
+          <RootStack.Navigator
+            initialRouteName="Splash"
+            screenOptions={{
+              headerTitleAlign: 'center',
+              headerStyle: {
+                backgroundColor: '#0080ff',
+              },
+              headerTintColor: '#ffffff',
+              headerTitleStyle: {
+                fontSize: 25,
+                fontWeight: 'bold',
+              },
+              headerShown: false,
+            }}
           >
-            <Bar.Screen
-              name="Home"
-              component={Home}
-              options={{
-                title: 'Home',
-                tabBarColor: 'red',
-                tabBarIcon: ({ focused }) => (
-                  <FontAwesomeIcon
-                    style={gstyles.iconStyle}
-                    icon={faHouse}
-                    size={focused ? 25 : 20}
-                    color={focused ? '#fff' : '#999999'}
-                  />
-                ),
-              }}
+            <RootStack.Screen name="Splash" component={Splash} />
+
+            <RootStack.Screen name="My Tasks" component={HomeTabs} />
+
+            <RootStack.Screen
+              name="ClubListAdd"
+              component={clubListAdd}
+              options={{ headerShown: true }}
             />
-            <Bar.Screen
-              name="Players"
-              component={Players}
-              options={{
-                title: 'Home',
-                tabBarIcon: ({ focused }) => (
-                  <FontAwesomeIcon
-                    style={gstyles.iconStyle}
-                    icon={faPeopleCarry}
-                    size={focused ? 25 : 20}
-                    color={focused ? '#fff' : '#999999'}
-                  />
-                ),
-              }}
+
+            <RootStack.Screen
+              name="ClubListItem"
+              component={ClubListItem}
+              options={{ headerShown: true }}
             />
-          </Bar.Navigator>
+
+            <RootStack.Screen
+              name="PlayerListItem"
+              component={PlayerListItem}
+              options={{ headerShown: true }}
+            />
+          </RootStack.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>
     </Provider>

@@ -12,8 +12,7 @@ export const seasonList = (
   const newState: SeasonListState = cloneDeep(state) // a deep-cloning function
   switch (action.type) {
     case SEASON_LIST_ACTION_TYPES.ADD_SEASON:
-      const { start, end } = (action as AddSeasonAction).seasonData
-      return [...newState, { start, end }]
+      return [...newState, (action as AddSeasonAction).seasonData]
 
     default:
       return state

@@ -6,11 +6,13 @@ import { playList } from './play-list/reducer'
 import { playerList } from './player-list/reducer'
 import { seasonList } from './season-list/reducer'
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   clubList,
   playList,
   playerList,
   seasonList,
 })
+
+export type RootState = ReturnType<typeof rootReducer>
 
 export const store = createStore(rootReducer, applyMiddleware(thunk))

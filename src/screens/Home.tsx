@@ -1,19 +1,15 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { ClubList } from '../components/club-list/club-list'
-import { gstyles } from '../utils/global-styles'
+import { StackNavigationProp } from '@react-navigation/stack'
+import ClubListBase from '../components/club-list/club-list-base'
 
-interface Props {}
+interface Props {
+  navigation: StackNavigationProp<any, any>
+}
 
-export default function Home({}: Props): JSX.Element {
+export default function Home({ navigation }: Props): JSX.Element {
   return (
     <>
-      <View style={[gstyles.container, gstyles.container_PRIMARY_NORMAL]}>
-        <Text style={gstyles.title}>Sportyma</Text>
-      </View>
-      <ClubList />
+      <ClubListBase navigation={navigation} />
     </>
   )
 }
-
-const styles = StyleSheet.create({})

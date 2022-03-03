@@ -1,16 +1,11 @@
 import React from 'react'
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  GestureResponderEvent,
-  ColorValue,
-} from 'react-native'
+import {ColorValue, GestureResponderEvent, Pressable, Text,} from 'react-native'
 
-import { gstyles } from '../utils/global-styles'
+import {gstyles} from '../utils/global-styles'
+
 interface Props {
-  onPress: (event: GestureResponderEvent) => void
+  onPress?: (event: GestureResponderEvent) => void
+  onLongPress?: (event: GestureResponderEvent) => void
   text: string
   type?: string
   bgColor?: ColorValue
@@ -18,6 +13,7 @@ interface Props {
 }
 export default function CustomButton({
   onPress,
+  onLongPress,
   text,
   type = 'PRIMARY',
   bgColor,
@@ -27,6 +23,7 @@ export default function CustomButton({
     <>
       <Pressable
         onPress={onPress}
+        onLongPress={onLongPress}
         style={({ pressed }) => [
           gstyles.container,
           gstyles[
@@ -34,17 +31,25 @@ export default function CustomButton({
               pressed ? 'PRESSED' : 'NORMAL'
             }` as keyof typeof gstyles
           ],
+          { zIndex: 0, elevation: 0 },
+          bgColor ? { backgroundColor: bgColor } : {},
         ]}
       >
-        <Text
-          style={[
-            gstyles.text,
-            gstyles[`text_${type}` as keyof typeof gstyles],
-            fgColor ? { color: fgColor } : {},
-          ]}
-        >
-          {text}
-        </Text>
+        {({ pressed }) => (
+          <Text
+            style={[
+              gstyles.text,
+              gstyles[
+                `text_${type}_${
+                  pressed ? 'PRESSED' : 'NORMAL'
+                }` as keyof typeof gstyles
+              ],
+              fgColor ? { color: fgColor } : {},
+            ]}
+          >
+            {text}
+          </Text>
+        )}
       </Pressable>
     </>
   )

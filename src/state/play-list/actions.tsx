@@ -1,4 +1,4 @@
-import { AddPlayAction } from '../types'
+import { AddPlayAction, Play } from '../types'
 
 // Bind each action to a type string
 // (optional if we have only one action as here)
@@ -7,20 +7,8 @@ export enum PLAY_LIST_ACTION_TYPES {
 }
 
 export const addPlay = (
-  seasonStart: Date,
-  seasonEnd: Date,
-  squadNumber: Number,
-  scoredGoal: Number,
-  playerId: Number,
-  clubName: string,
+  playData: Play
 ): AddPlayAction => ({
   type: PLAY_LIST_ACTION_TYPES.ADD_PLAY,
-  playData: {
-    seasonStart,
-    seasonEnd,
-    squadNumber,
-    scoredGoal,
-    playerId,
-    clubName,
-  },
+  playData: playData
 })

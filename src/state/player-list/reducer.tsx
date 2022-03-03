@@ -12,8 +12,7 @@ export const playerList = (
   const newState: PlayerListState = cloneDeep(state) // a deep-cloning function
   switch (action.type) {
     case PLAYER_LIST_ACTION_TYPES.ADD_PLAYER:
-      const { id, lastname, firstname } = (action as AddPlayerAction).playerData
-      return [...newState, { id, lastname, firstname }]
+      return [...newState, (action as AddPlayerAction).playerData]
 
     default:
       return state

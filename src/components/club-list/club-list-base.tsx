@@ -1,35 +1,73 @@
-import { Text, View } from 'react-native'
+import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { styles } from './styles'
-import { ClubListState } from '../../state/types'
-import { FlatList } from 'react-native'
-import CustomButton from '../custom-button'
-import { Club } from '../../state/types'
+import { AppState, Club, ClubListState } from '../../state/types'
 import { gstyles } from '../../utils/global-styles'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { connect } from 'react-redux'
+import images from '../../assets/node_modules/world_countries_lists/data/flags/32x32/flags-32x32.json'
 
 interface Props {
-  clubs: ClubListState
-  onAddClub: (name: string, logo: string, country: string) => void
+  clubList: ClubListState
+  navigation: StackNavigationProp<any, any>
 }
 
-export default function ClubListBase({ clubs }: Props): JSX.Element {
+const ClubListBaseFC = ({ navigation, clubList }: Props): JSX.Element => {
   return (
-    <View style={gstyles.container}>
+    <View style={[{ flex: 1 }]}>
       <FlatList
-        keyExtractor={(index) => index.toString()}
-        style={styles.list}
-        data={clubs}
-        renderItem={({ item }) => (
-          <Text style={styles.listItem}>
-            {item.name} : {item.logo} : {item.country}
-          </Text>
+        keyExtractor={(item, index) => index.toString()}
+        style={[styles.list, { zIndex: 0, elevation: 0 }]}
+        data={clubList}
+        renderItem={({ item }: { item: Club }) => (
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('ClubListItem', { item })
+            }}
+            style={styles.countryItem}
+          >
+            <Text
+              style={[
+                gstyles.text_black,
+                gstyles.text_size_MEDIUM,
+                { height: 50 },
+              ]}
+            >
+              <Image
+                style={gstyles.logo_MEDIUM}
+                resizeMode="center"
+                source={item.logo}
+              />
+              &nbsp;&nbsp;
+              <Image
+                style={gstyles.logo_MEDIUM}
+                source={{ uri: images[item.country as keyof typeof images] }}
+              />
+              &nbsp;&nbsp;
+              {item.name}
+            </Text>
+          </TouchableOpacity>
         )}
-      ></FlatList>
-
-      <CustomButton
-        onPress={() => console.log('pressed')}
-        text="Ajouter un Club"
       />
+
+      <TouchableOpacity
+        style={gstyles.button_BOTTOM_RIGHT}
+        onPress={() => {
+          navigation.navigate('ClubListAdd')
+        }}
+      >
+        <FontAwesomeIcon icon={faPlus} size={30} color="white" />
+      </TouchableOpacity>
     </View>
   )
 }
+
+const mapStateToProps = (state: AppState) => ({
+  clubList: state.clubList,
+})
+
+// Define the connector
+const ClubListBase = connect(mapStateToProps)(ClubListBaseFC)
+export default ClubListBase
