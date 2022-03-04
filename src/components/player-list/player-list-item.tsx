@@ -64,7 +64,11 @@ const PlayerListItemFC = ({
 
       <DataTable>
         <DataTable.Header>
-          <DataTable.Title>
+          <DataTable.Title
+            style={{
+              justifyContent: 'center',
+            }}
+          >
             <Text style={gstyles.table_TITLE}>Saison</Text>
           </DataTable.Title>
           <DataTable.Title
@@ -84,13 +88,25 @@ const PlayerListItemFC = ({
               Club
             </Text>
           </DataTable.Title>
-          <DataTable.Title>
+          <DataTable.Title
+            style={{
+              justifyContent: 'center',
+            }}
+          >
             <Text style={gstyles.table_TITLE}>Pos</Text>
           </DataTable.Title>
-          <DataTable.Title>
+          <DataTable.Title
+            style={{
+              justifyContent: 'center',
+            }}
+          >
             <Text style={gstyles.table_TITLE}>Buts</Text>
           </DataTable.Title>
-          <DataTable.Title>
+          <DataTable.Title
+            style={{
+              justifyContent: 'center',
+            }}
+          >
             <Text style={gstyles.table_TITLE}>Matchs</Text>
           </DataTable.Title>
         </DataTable.Header>
@@ -102,7 +118,11 @@ const PlayerListItemFC = ({
                 key={index}
                 style={{ height: 60, justifyContent: 'center' }}
               >
-                <DataTable.Cell>
+                <DataTable.Cell
+                  style={{
+                    justifyContent: 'center',
+                  }}
+                >
                   <Text style={gstyles.table_CELL}>
                     {toString(
                       seasonList.find((season: Season) => {
@@ -146,15 +166,27 @@ const PlayerListItemFC = ({
                   <Text style={gstyles.table_CELL_SMALL}>{play.clubName}</Text>
                 </DataTable.Cell>*/}
 
-                <DataTable.Cell>
+                <DataTable.Cell
+                  style={{
+                    justifyContent: 'center',
+                  }}
+                >
                   <Text style={gstyles.table_CELL}>{play.squadNumber}</Text>
                 </DataTable.Cell>
 
-                <DataTable.Cell>
+                <DataTable.Cell
+                  style={{
+                    justifyContent: 'center',
+                  }}
+                >
                   <Text style={gstyles.table_CELL}>{play.scoredGoal}</Text>
                 </DataTable.Cell>
 
-                <DataTable.Cell>
+                <DataTable.Cell
+                  style={{
+                    justifyContent: 'center',
+                  }}
+                >
                   <Text style={gstyles.table_CELL}>{play.playedMatches}</Text>
                 </DataTable.Cell>
               </DataTable.Row>
