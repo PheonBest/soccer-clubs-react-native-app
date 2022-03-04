@@ -22,10 +22,12 @@ export default function Splash({ navigation }: Props): JSX.Element {
         style={gstyles.backgroundImage}
       >
         <Image
-          style={gstyles.logo}
+          style={gstyles.logo_XL}
           source={require('../assets/images/trophee.png')}
         />
-        <Text style={gstyles.title_LARGE_CENTERED}>SPORTYMA</Text>
+        <Text style={[gstyles.title, gstyles.alignment_CENTERED]}>
+          SPORTYMA
+        </Text>
       </ImageBackground>
     </View>
   )
