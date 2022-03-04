@@ -1,8 +1,8 @@
 import json
 import os, os.path
 
-pathPrefix = "../assets/clubs/"
-path = "src/assets/clubs/"
+pathPrefix = "../assets/clubs/images/"
+path = "src/assets/clubs/images/"
 outputFilePath = "src/utils/"
 
 outputFile = "clubImages.ts"

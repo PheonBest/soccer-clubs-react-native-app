@@ -1,4 +1,5 @@
-import { GestureResponderEvent, Image, Text, View } from 'react-native'
+import { Alert, GestureResponderEvent, Image, Text, View } from 'react-native'
+import { TouchableHighlight, FlatList } from 'react-native-gesture-handler'
 import React, { useRef, useState } from 'react'
 import { AppState, Club, ClubListState, Country } from '../../state/types'
 import CustomButton from '../custom-button'
@@ -8,21 +9,39 @@ import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 import { addClub } from '../../state/club-list/actions'
 import { gstyles } from '../../utils/global-styles'
-
-import { TouchableOpacity, FlatList } from 'react-native-gesture-handler'
 import { styles } from './styles'
 
 // // Get countries list from modules world_countries_ist
 import countries from '../../assets/node_modules/world_countries_lists/data/countries/fr/countries.json'
 import images from '../../assets/node_modules/world_countries_lists/data/flags/16x16/flags-16x16.json'
 import CustomImagePicker from '../custom-image-picker'
+import { StackNavigationProp } from '@react-navigation/stack'
 
 interface Props {
+  navigation: StackNavigationProp<any, any>
   clubList: ClubListState
   onAddClub: (club: Club) => void
 }
 
-const ClubListAdd = ({ clubList, onAddClub }: Props): JSX.Element => {
+const ClubListAdd = ({
+  navigation,
+  clubList,
+  onAddClub,
+}: Props): JSX.Element => {
+  // Custom validation rules
+  // Check if the entered country is an existing country:
+
+  const isCountry = (country: string): boolean => {
+    return countries.some(
+      (item: Country) => item.name.toUpperCase() == country.toUpperCase()
+    )
+  }
+  const isClubUnique = (club: string): boolean => {
+    return !clubList.some(
+      (item: Club) => item.name.toUpperCase() == club.toUpperCase()
+    )
+  }
+
   // For the country's dropdown list selector:
   // If we click on a country suggestion
   // and that there's another button (e.g: image picker button),
@@ -30,28 +49,50 @@ const ClubListAdd = ({ clubList, onAddClub }: Props): JSX.Element => {
   // Hence, a debounce time is needed to prevent clicking on the button behind.
   const DEBOUNCE_TIME = 100
 
+  interface Fields {
+    name: string
+    logo: string
+    country: string
+  }
+
   const {
     control,
     handleSubmit,
     //formState: { errors },
     setValue,
-  } = useForm<Club>()
+  } = useForm<Fields>()
 
-  const onSubmit = (data: Club) => {
+  const onSubmit = (data: Fields) => {
     if (data && data.country) {
+      // get the country code corresponding to the country name
       const alpha2 = countries.filter((item: Country) => {
         return item.name.toUpperCase() == data.country.toUpperCase()
       })[0].alpha2
+
       if (typeof alpha2 !== 'undefined') {
-        onAddClub({ name: data.name, logo: data.logo, country: alpha2 } as Club)
+        onAddClub({
+          name: data.name,
+          logo: { uri: data.logo },
+          country: alpha2,
+        } as Club)
       } else {
-        onAddClub({ name: data.name, logo: data.logo, country: 'fr' } as Club)
+        onAddClub({
+          name: data.name,
+          logo: { uri: data.logo },
+          country: 'fr',
+        } as Club)
       }
+      Alert.alert('Succès', 'Le club a été crée !', [
+        {
+          text: 'OK',
+          onPress: () => navigation.goBack(),
+          style: 'cancel',
+        },
+      ])
     }
   }
 
   const onPressHandler = (func: Function) => {
-    console.log(searching.current)
     if (!searching.current) {
       func()
     }
@@ -62,10 +103,14 @@ const ClubListAdd = ({ clubList, onAddClub }: Props): JSX.Element => {
   const [filteredCountries, setFilteredCountries] = useState(countries)
   const [searchingMenu, setSearchingMenu] = useState(false)
   const searching = useRef(false)
+  const [shownCountry, setShownCountry] = useState<Country | undefined>(
+    undefined
+  )
 
   const ItemSeparatorView = () => {
-    return <View style={styles.countrySeparator} />
+    return <View style={gstyles.listItem_separator} />
   }
+
   const ItemView = ({
     item,
     onPress,
@@ -74,19 +119,32 @@ const ClubListAdd = ({ clubList, onAddClub }: Props): JSX.Element => {
     onPress: ((event: GestureResponderEvent) => void) & (() => void)
   }) => {
     return (
-      <TouchableOpacity onPress={onPress} style={styles.countryItem}>
+      <TouchableHighlight
+        underlayColor="#c8c8c8"
+        onPress={onPress}
+        style={[
+          gstyles.listItem_PRESSABLE,
+          {
+            borderRadius: 0,
+            marginLeft: 0,
+            width: '100%',
+            borderBottomWidth: 1,
+          },
+        ]}
+      >
         <Text style={gstyles.text_black}>
           <Image
-            style={gstyles.logo_SMALL}
+            style={gstyles.logo_S}
             source={{ uri: images[item.alpha2 as keyof typeof images] }}
           />
           &nbsp;&nbsp;
           {item.name}
         </Text>
-      </TouchableOpacity>
+      </TouchableHighlight>
     )
   }
   const searchFilter = (text: string) => {
+    let oneCountryFound = false
     if (text) {
       searching.current = true
       setSearchingMenu(true)
@@ -96,7 +154,23 @@ const ClubListAdd = ({ clubList, onAddClub }: Props): JSX.Element => {
         const textData = text.toUpperCase()
         return itemData.indexOf(textData) > -1
       })
-      if (newData.length == 0) {
+
+      // If there's only one suggestion
+      // and the entered country is equal to it
+      // show the corresponding country
+      if (newData.length == 1) {
+        if (newData[0].name.toUpperCase() == text.toUpperCase()) {
+          setShownCountry(newData[0])
+          // hide the dropdown menu
+          searching.current = false
+          setSearchingMenu(false)
+
+          oneCountryFound = true
+        }
+      }
+      // If the entered country hasn't any suggestion,
+      // hide the dropdown menu
+      else if (newData.length == 0) {
         searching.current = false
         setSearchingMenu(false)
       } else {
@@ -108,6 +182,10 @@ const ClubListAdd = ({ clubList, onAddClub }: Props): JSX.Element => {
 
       setFilteredCountries(countries)
     }
+    if (!oneCountryFound)
+      if (typeof shownCountry != 'undefined') {
+        setShownCountry(undefined)
+      }
   }
 
   return (
@@ -117,7 +195,21 @@ const ClubListAdd = ({ clubList, onAddClub }: Props): JSX.Element => {
         control={control}
         name={'name'}
         placeholder={'Entrer un nom de club'}
-        rules={{ required: 'Le nom du club est requis' }}
+        rules={{
+          required: 'Le nom du club est requis',
+          minLength: {
+            value: 3,
+            message: 'Le nom doit faire au moins 3 caractères',
+          },
+          maxLength: {
+            value: 25,
+            message: 'Le nom doit faire moins de 25 caractères',
+          },
+          validate: {
+            isUnique: (value) =>
+              isClubUnique(value) || 'Ce nom est déjà utilisé',
+          },
+        }}
       />
 
       {/*For the country's dropdown list, we use absolute positionning.
@@ -129,6 +221,7 @@ const ClubListAdd = ({ clubList, onAddClub }: Props): JSX.Element => {
       <View
         style={[
           gstyles.container_NO_PADDING,
+
           {
             zIndex: 1,
             elevation: 1,
@@ -139,7 +232,13 @@ const ClubListAdd = ({ clubList, onAddClub }: Props): JSX.Element => {
           control={control}
           name={'country'}
           placeholder={'Entrer un pays'}
-          rules={{ required: 'Le pays du club est requis' }}
+          rules={{
+            required: 'Le pays du club est requis',
+            validate: {
+              checkCountry: (value) =>
+                isCountry(value) || "Le pays saisi n'est pas valide",
+            },
+          }}
           onChangeHandler={(text: string) => searchFilter(text)}
           onBlurHandler={() => {
             searching.current = false
@@ -148,19 +247,19 @@ const ClubListAdd = ({ clubList, onAddClub }: Props): JSX.Element => {
         />
 
         {searchingMenu && (
-          <View style={[styles.container_DROPDOWN, styles.shadowProp]}>
-            <View style={[styles.subContainer_DROPDOWN]}>
+          <View style={[styles.container_DROPDOWN, gstyles.shadowProp]}>
+            <View style={[styles.subContainer_DROPDOWN, { flex: 1 }]}>
               <FlatList
                 data={filteredCountries}
                 keyExtractor={(item, index) => index.toString()}
+                //ItemSeparatorComponent={ItemSeparatorView}
                 style={{ width: '100%' }}
-                ItemSeparatorComponent={ItemSeparatorView}
                 renderItem={({ item }: { item: Country }) => (
                   <ItemView
                     item={item}
                     onPress={() => {
-                      console.log(item.name)
                       setValue('country', item.name)
+                      setShownCountry(item)
 
                       // close the dropdown menu immediately
                       setSearchingMenu(false)
@@ -177,6 +276,17 @@ const ClubListAdd = ({ clubList, onAddClub }: Props): JSX.Element => {
           </View>
         )}
       </View>
+
+      {shownCountry ? (
+        <Text style={gstyles.text_black}>
+          <Image
+            style={gstyles.logo_S}
+            source={{ uri: images[shownCountry.alpha2 as keyof typeof images] }}
+          />
+          &nbsp;&nbsp;
+          {shownCountry.name}
+        </Text>
+      ) : null}
 
       <Text style={gstyles.label}>Logo</Text>
       <CustomImagePicker

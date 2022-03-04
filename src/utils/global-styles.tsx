@@ -2,8 +2,27 @@ import { StyleSheet } from 'react-native'
 
 export const gstyles = StyleSheet.create({
   list: {},
+  listItem_separator: {
+    height: 0.7,
+    width: '100%',
+    backgroundColor: '#c8c8c8',
+  },
+  listItem_PRESSABLE: {
+    marginHorizontal: 10,
+    paddingLeft: 10,
+    paddingVertical: 2,
+    backgroundColor: '#FFF',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    borderBottomColor: '#c8c8c8',
+    borderBottomWidth: 0.8,
+    borderRadius: 5,
+  },
   listItem: {
     paddingLeft: 10,
+    paddingVertical: 2,
     backgroundColor: '#FFF',
     borderBottomColor: '#c8c8c8',
     borderBottomWidth: 1,
@@ -25,27 +44,30 @@ export const gstyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  logo: {
+
+  logo_S: {
+    width: 16,
+    height: 16,
+  },
+  logo_M: {
+    width: 32,
+    height: 32,
+  },
+  logo_L: {
+    width: 64,
+    height: 64,
+  },
+  logo_XL: {
     width: 150,
     height: 150,
     margin: 20,
     alignSelf: 'center',
   },
-  logo_SMALL: {
-    width: 16,
-    height: 16,
-  },
-  logo_MEDIUM: {
-    width: 32,
-    height: 32,
-  },
-  logo_LARGE: {
-    width: 64,
-    height: 64,
-  },
+
   bar: {
     backgroundColor: '#FFF',
   },
+
   container_NO_PADDING: {
     width: '100%',
     alignItems: 'center',
@@ -60,11 +82,6 @@ export const gstyles = StyleSheet.create({
 
     alignItems: 'center',
     borderRadius: 5,
-  },
-
-  iconStyle: {
-    fontSize: 40,
-    color: 'black',
   },
 
   container_PRIMARY_NORMAL: {
@@ -103,40 +120,46 @@ export const gstyles = StyleSheet.create({
 
   container_TERTIARY: {},
 
-  title_LEFT: {
-    color: 'white',
+  title: {
     fontFamily: 'Bold',
-    alignSelf: 'flex-start',
+    color: 'white',
     fontSize: 24,
   },
-  title_CENTERED: {
-    color: 'white',
-    fontFamily: 'Bold',
-    alignSelf: 'center',
-    fontSize: 24,
-  },
-  title_LARGE_CENTERED: {
-    color: 'white',
-    fontFamily: 'Bold',
-    alignSelf: 'center',
-    textAlign: 'center',
-    fontSize: 24,
-  },
-
   text: {
-    color: '#fff',
     fontFamily: 'Regular',
+    color: 'white',
+    fontSize: 18,
   },
 
   text_black: {
-    color: '#000',
     fontFamily: 'Regular',
+    color: 'black',
+    fontSize: 18,
+  },
+
+  text_SECONDARY: {
+    color: '#EEE',
+  },
+
+  text_TERTIARY: {
+    color: 'gray',
+  },
+
+  alignment_LEFT: {
+    alignSelf: 'flex-start',
+  },
+  alignment_RIGHT: {
+    alignSelf: 'flex-end',
+  },
+  alignment_CENTERED: {
+    alignSelf: 'center',
+    textAlign: 'center',
   },
 
   table_TITLE: {
     color: '#666',
     fontFamily: 'Regular',
-    fontSize: 20,
+    fontSize: 18,
   },
 
   table_CELL: {
@@ -145,8 +168,23 @@ export const gstyles = StyleSheet.create({
     fontSize: 16,
   },
 
-  text_size_MEDIUM: {
-    fontSize: 18,
+  table_CELL_SMALL: {
+    color: '#000',
+    fontFamily: 'Regular',
+    fontSize: 12,
+  },
+
+  table_CELL_BOLD: {
+    color: '#000',
+    fontFamily: 'Bold',
+    fontSize: 16,
+  },
+
+  shadowProp: {
+    shadowColor: '#171717',
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
 
   label: {
@@ -157,13 +195,6 @@ export const gstyles = StyleSheet.create({
     marginLeft: 10,
   },
 
-  text_SECONDARY: {
-    color: '#EEE',
-  },
-
-  text_TERTIARY: {
-    color: 'gray',
-  },
   autocompleteContainer: {
     flex: 1,
     left: 0,

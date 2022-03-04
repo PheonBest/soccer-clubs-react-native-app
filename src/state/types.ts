@@ -38,6 +38,7 @@ export type Play = {
   // attributes
   squadNumber: Number
   scoredGoal: Number
+  playedMatches: Number
 }
 
 export type Club = {

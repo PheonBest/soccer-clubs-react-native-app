@@ -24,6 +24,14 @@ interface Props {
   playList: PlayListState
 }
 
+export type PlayerPlay = {
+  id: string | number[]
+  lastname: string
+  firstname: string
+  squadNumber: Number
+  scoredGoal: Number
+}
+
 const ClubListItemFC = ({
   navigation,
   route,
@@ -37,16 +45,29 @@ const ClubListItemFC = ({
     seasonList.find((season: Season) => {
       return currentDate >= season.start && currentDate <= season.end
     }) || seasonList[0]
-  const filteredPlayerId = playList
-    .filter((play: Play) => {
-      return play.seasonId == currentSeason!.id && play.clubName == item.name
-    })
-    .map((play: Play) => {
-      return play.playerId
-    })
-  const filteredPlayerList = playerList.filter((player: Player) => {
-    return filteredPlayerId.includes(player.id)
+  const filteredPlayList = playList.filter((play: Play) => {
+    return play.seasonId == currentSeason!.id && play.clubName == item.name
   })
+  const filteredPlayIdList = filteredPlayList.map((play: Play) => {
+    return play.playerId
+  })
+  const filteredPlayerList: PlayerPlay[] = playerList
+    .filter((player: Player) => {
+      return filteredPlayIdList.includes(player.id)
+    })
+    .map((player: Player) => {
+      const play = filteredPlayList.find((play: Play) => {
+        return play.playerId == player.id
+      })
+      return {
+        id: player.id,
+        lastname: player.lastname,
+        firstname: player.firstname,
+        squadNumber: play!.squadNumber,
+        scoredGoal: play!.scoredGoal,
+      }
+    })
+  filteredPlayerList.sort((a, b) => (a.squadNumber > b.squadNumber ? 1 : -1))
 
   return (
     <View>
@@ -58,15 +79,15 @@ const ClubListItemFC = ({
       >
         <View style={{ flexDirection: 'row' }}>
           <Image
-            style={gstyles.logo_LARGE}
+            style={gstyles.logo_M}
             resizeMode="center"
             source={item.logo}
           />
-          <Text style={gstyles.title_LARGE_CENTERED}>
+          <Text style={[gstyles.title, gstyles.alignment_CENTERED]}>
             &nbsp;{item.name}&nbsp;
           </Text>
           <Image
-            style={gstyles.logo_LARGE}
+            style={gstyles.logo_M}
             source={{ uri: images[item.country as keyof typeof images] }}
           />
         </View>
@@ -76,24 +97,38 @@ const ClubListItemFC = ({
         keyExtractor={(item, index) => index.toString()}
         style={gstyles.list}
         data={filteredPlayerList}
-        renderItem={({ item }: { item: Player }) => (
+        renderItem={({ item }: { item: PlayerPlay }) => (
           <TouchableOpacity
             onPress={() => {
               navigation.navigate('PlayerListItem', { item })
             }}
-            style={gstyles.listItem}
+            style={[
+              gstyles.listItem_PRESSABLE,
+              {
+                flexDirection: 'row',
+                alignItems: 'center', //Centered vertically
+                flex: 1,
+                height: 50,
+              },
+            ]}
           >
-            <Text
-              style={[
-                gstyles.text_black,
-                gstyles.text_size_MEDIUM,
-                { height: 50 },
-              ]}
+            <View
+              style={{
+                width: 50,
+                height: '100%',
+                backgroundColor: '#3B71F399',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: 10,
+                borderRadius: 10,
+              }}
             >
+              <Text style={[gstyles.text_black]}>{item.squadNumber}</Text>
+            </View>
+            <Text style={[gstyles.text_black, { marginRight: 10 }]}>
               {item.firstname}
-              &nbsp;&nbsp;
-              {item.lastname}
             </Text>
+            <Text style={[gstyles.text_black]}>{item.lastname}</Text>
           </TouchableOpacity>
         )}
       />

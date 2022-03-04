@@ -1,5 +1,4 @@
-import { LogBox, Text, View } from 'react-native'
-import { gstyles } from './src/utils/global-styles'
+import { LogBox } from 'react-native'
 import { MontserratAlternates_700Bold } from '@expo-google-fonts/montserrat-alternates'
 import { Roboto_400Regular } from '@expo-google-fonts/roboto'
 import { useFonts } from 'expo-font'
@@ -37,16 +36,7 @@ interface Props {
 function HomeTabs({ navigation }: Props) {
   return (
     <>
-      <View
-        style={[
-          gstyles.container,
-          gstyles.container_PRIMARY_NORMAL,
-          { height: 70, marginTop: 0, paddingTop: 25 },
-        ]}
-      >
-        <Text style={gstyles.title_LEFT}>Sportyma</Text>
-      </View>
-
+      {/* Add bottom-bar / bottom-bar / drawer here */}
       <Home navigation={navigation} />
     </>
   )
@@ -89,19 +79,19 @@ export default function App() {
             <RootStack.Screen
               name="ClubListAdd"
               component={clubListAdd}
-              options={{ headerShown: true }}
+              options={{ headerShown: true, title: 'AJOUT CLUB' }}
             />
 
             <RootStack.Screen
               name="ClubListItem"
               component={ClubListItem}
-              options={{ headerShown: true }}
+              options={{ headerShown: true, title: 'CLUB' }}
             />
 
             <RootStack.Screen
               name="PlayerListItem"
               component={PlayerListItem}
-              options={{ headerShown: true }}
+              options={{ headerShown: true, title: 'STATISTIQUES' }}
             />
           </RootStack.Navigator>
         </NavigationContainer>

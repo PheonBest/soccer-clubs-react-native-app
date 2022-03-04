@@ -1,8 +1,6 @@
 import { Club, Country, Play, Player, Season } from '../state/types'
-import countries from '../assets/node_modules/world_countries_lists/data/countries/fr/countries.json'
-import { clubImages } from './clubImages'
 import uuid from 'react-native-uuid'
-import { makeId, shuffle } from './utils'
+import { shuffle } from './utils'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 import { addClub } from '../state/club-list/actions'
@@ -11,11 +9,14 @@ import React, { useEffect } from 'react'
 import { addSeason } from '../state/season-list/actions'
 import { addPlay } from '../state/play-list/actions'
 
+import countries from '../assets/node_modules/world_countries_lists/data/countries/fr/countries.json'
+import soccerData from '../assets/dataset/soccer-wiki-players-clubs.json'
+
 const generateData = (): [Club[], Season[], Player[], Play[]] => {
   // Parameters
   const nbClubs = 20 // number of clubs to generate
 
-  const nbSeasons = 2 // number of seasons to generate
+  const nbSeasons = 7 // number of seasons to generate
   const seasonMonthStart = 8 // season's month start
   const seasonDayStart = 6 // season's day start
   const seasonMonthEnd = 5 // season's month end
@@ -28,14 +29,15 @@ const generateData = (): [Club[], Season[], Player[], Play[]] => {
   // Clubs generation
   const generatedClubs: Club[] = []
   for (let i = 0; i < nbClubs; ++i) {
+    // assign a random country to the club
     const randomCountry: Country =
       countries[Math.floor(Math.random() * countries.length)]
     const randomAlpha2 = randomCountry.alpha2
-    const randomImage: any =
-      clubImages[Math.floor(Math.random() * clubImages.length)]
+
+    const club = soccerData.ClubData[i]
     generatedClubs.push({
-      name: makeId(5),
-      logo: randomImage,
+      name: club.Name,
+      logo: { uri: club.ImageURL },
       country: randomAlpha2,
     })
   }
@@ -64,13 +66,14 @@ const generateData = (): [Club[], Season[], Player[], Play[]] => {
     currentYear = currentYear - 1
   }
 
-  // Players generation
   const generatedPlayers: Player[] = []
+  // Players generation
   for (let i = 0; i < nbPlayers; ++i) {
+    const player = soccerData.PlayerData[i]
     generatedPlayers.push({
       id: uuid.v4(),
-      lastname: makeId(7),
-      firstname: makeId(7),
+      lastname: player.Surname,
+      firstname: player.Forename,
     })
   }
 
@@ -82,18 +85,18 @@ const generateData = (): [Club[], Season[], Player[], Play[]] => {
     shuffle(tmpGeneratedPlayers)
 
     generatedClubs.forEach((club) => {
-      let squadNumber = 1
-      for (let i = 0; i < nbPlayersPerClub; ++i) {
+      for (let i = 1; i < nbPlayersPerClub + 1; ++i) {
+        console.log(`[PLAY] ${club.name}`)
         const player = tmpGeneratedPlayers.pop()
         if (player) {
           generatedPlays.push({
             seasonId: season.id,
             playerId: player.id,
             clubName: club.name,
-            squadNumber: squadNumber,
+            squadNumber: i,
             scoredGoal: Math.floor(Math.random() * 40),
+            playedMatches: Math.floor(Math.random() * (38 - 17 + 1) + 17),
           })
-          squadNumber = squadNumber + 1
         }
       }
     })
@@ -116,7 +119,9 @@ const StoriesLoaderFC = ({
   onAddPlayer,
 }: Props): JSX.Element => {
   useEffect(() => {
+    console.log('[USER STORIES] Generating data ...')
     const [clubs, seasons, players, plays] = generateData()
+    console.log('[USER STORIES] Storing data ...')
     clubs.forEach((club) => {
       onAddClub(club)
     })
@@ -129,6 +134,7 @@ const StoriesLoaderFC = ({
     players.forEach((player) => {
       onAddPlayer(player)
     })
+    console.log('[USER STORIES] Data successfully loaded !')
   }, [])
   return <></>
 }
