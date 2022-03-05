@@ -1,8 +1,9 @@
 {
   "name": "assets",
   "version": "1.0.0",
-  "description": "Assets",
+  "description": "modules used as assets",
   "main": "index.js",
+  "author": "Antonin MARXER",
   "license": "MIT",
   "dependencies": {
     "world_countries_lists": "^2.4.0"

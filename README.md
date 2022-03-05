@@ -23,6 +23,7 @@ Deux dataset ont été utilisés, à savoir celui de soccer-wiki et de world_cou
 - Accéder à l'historique des clubs d'un joueur.
 - Accéder aux statiques d'un joueur par club et par saison.
 - Saisir un club.
+- Supporter l'orientation en mode portrait et paysage.
 
 #Ecrans
 
@@ -33,8 +34,16 @@ Lors d’un clic sur le club, aﬃchage d’une page de détails du club, ainsi 
 #Avis aux développeurs
 La génération des données est paramétrable (choix du nombre de clubs, de saisons, de joueurs par club).
 
+###Installation:
+* git clone 
+* Au niveau de la racine: yarn install 
+* Au niveau src/assets/: yarn install
+
+Utilisation:
+Exécuter la commande "yarn start" à la racine du projet.
+
 #P-S:
-J'espère que l'applciation vous plaira.
+J'espère que l'application vous plaira.
 
 Bien cordialement,
 Antonin Marxer
