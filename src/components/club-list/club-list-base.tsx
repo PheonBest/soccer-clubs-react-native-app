@@ -43,7 +43,7 @@ const ClubListBaseFC = ({ navigation, clubList }: Props): JSX.Element => {
                 <Image
                   style={gstyles.logo_M}
                   resizeMode="center"
-                  source={item.logo}
+                  source={{ uri: item.logo }}
                 />
                 &nbsp;&nbsp;
                 <Image

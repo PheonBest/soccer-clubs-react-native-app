@@ -70,7 +70,10 @@ const ClubListItemFC = ({
   filteredPlayerList.sort((a, b) => (a.squadNumber > b.squadNumber ? 1 : -1))
 
   return (
-    <View>
+    /* Display flex
+       so that the FlatList
+       scrolls to the bottom of the page */
+    <View style={{ flex: 1 }}>
       <View
         style={[
           { alignItems: 'center', padding: 10 },
@@ -81,7 +84,7 @@ const ClubListItemFC = ({
           <Image
             style={gstyles.logo_M}
             resizeMode="center"
-            source={item.logo}
+            source={{ uri: item.logo }}
           />
           <Text style={[gstyles.title, gstyles.alignment_CENTERED]}>
             &nbsp;{item.name}&nbsp;

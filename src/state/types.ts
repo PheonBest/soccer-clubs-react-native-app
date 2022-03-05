@@ -18,21 +18,21 @@ export type CountryList = Country[]
 // REDUX
 // Define entities
 export type Player = {
-  id: string | number[]
+  id: string
   lastname: string
   firstname: string
 }
 
 export type Season = {
-  id: string | number[]
+  id: string
   start: Date
   end: Date
 }
 
 export type Play = {
   // foreign keys
-  seasonId: string | number[]
-  playerId: string | number[]
+  seasonId: string
+  playerId: string
   clubName: string
 
   // attributes
@@ -43,7 +43,7 @@ export type Play = {
 
 export type Club = {
   name: string
-  logo: { uri: string } | number
+  logo: string
   country: string
 }
 

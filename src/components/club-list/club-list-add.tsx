@@ -72,13 +72,13 @@ const ClubListAdd = ({
       if (typeof alpha2 !== 'undefined') {
         onAddClub({
           name: data.name,
-          logo: { uri: data.logo },
+          logo: data.logo,
           country: alpha2,
         } as Club)
       } else {
         onAddClub({
           name: data.name,
-          logo: { uri: data.logo },
+          logo: data.logo,
           country: 'fr',
         } as Club)
       }

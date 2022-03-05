@@ -37,7 +37,7 @@ const generateData = (): [Club[], Season[], Player[], Play[]] => {
     const club = soccerData.ClubData[i]
     generatedClubs.push({
       name: club.Name,
-      logo: { uri: club.ImageURL },
+      logo: club.ImageURL,
       country: randomAlpha2,
     })
   }
@@ -59,7 +59,7 @@ const generateData = (): [Club[], Season[], Player[], Play[]] => {
 
   for (let i = 0; i < nbSeasons; ++i) {
     generatedSeasons.push({
-      id: uuid.v4(),
+      id: uuid.v4() as string,
       start: new Date(currentYear - 1, seasonMonthStart, seasonDayStart),
       end: new Date(currentYear, seasonMonthEnd, seasonDayEnd),
     })
@@ -71,7 +71,7 @@ const generateData = (): [Club[], Season[], Player[], Play[]] => {
   for (let i = 0; i < nbPlayers; ++i) {
     const player = soccerData.PlayerData[i]
     generatedPlayers.push({
-      id: uuid.v4(),
+      id: uuid.v4() as string,
       lastname: player.Surname,
       firstname: player.Forename,
     })
@@ -86,7 +86,6 @@ const generateData = (): [Club[], Season[], Player[], Play[]] => {
 
     generatedClubs.forEach((club) => {
       for (let i = 1; i < nbPlayersPerClub + 1; ++i) {
-        console.log(`[PLAY] ${club.name}`)
         const player = tmpGeneratedPlayers.pop()
         if (player) {
           generatedPlays.push({

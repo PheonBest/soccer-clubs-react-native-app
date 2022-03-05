@@ -47,10 +47,20 @@ const PlayerListItemFC = ({
       .substring(2, 4)}`
   }
 
-  const clubFlex = 1.8 // Taille de la colonne Club
+  // Taille des colonnes
+  const flexValues = {
+    season: 1.3,
+    club: 2,
+    squadNumber: 1,
+    scoredGoal: 1,
+    playedMatches: 1,
+  }
 
   return (
-    <View>
+    /* Display flex
+       so that the scrollview
+       scrolls to the bottom of the page */
+    <View style={{ flex: 1 }}>
       <View
         style={[
           { alignItems: 'center', padding: 10 },
@@ -62,138 +72,142 @@ const PlayerListItemFC = ({
         </Text>
       </View>
 
-      <DataTable>
-        <DataTable.Header>
-          <DataTable.Title
-            style={{
-              justifyContent: 'center',
-            }}
+      <DataTable.Header>
+        <DataTable.Title
+          style={{
+            flex: flexValues.season,
+            justifyContent: 'center',
+          }}
+        >
+          <Text style={gstyles.table_TITLE}>Saison</Text>
+        </DataTable.Title>
+        <DataTable.Title
+          style={{
+            flex: flexValues.club,
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}
+        >
+          <Text
+            style={[
+              gstyles.table_TITLE,
+              gstyles.alignment_CENTERED,
+              { alignItems: 'center' },
+            ]}
           >
-            <Text style={gstyles.table_TITLE}>Saison</Text>
-          </DataTable.Title>
-          <DataTable.Title
-            style={{
-              flex: clubFlex,
-              flexDirection: 'row',
-              justifyContent: 'center',
-            }}
-          >
-            <Text
-              style={[
-                gstyles.table_TITLE,
-                gstyles.alignment_CENTERED,
-                { alignItems: 'center' },
-              ]}
+            Club
+          </Text>
+        </DataTable.Title>
+        <DataTable.Title
+          style={{
+            justifyContent: 'center',
+            flex: flexValues.squadNumber,
+          }}
+        >
+          <Text style={gstyles.table_TITLE}>Pos</Text>
+        </DataTable.Title>
+        <DataTable.Title
+          style={{
+            justifyContent: 'center',
+            flex: flexValues.scoredGoal,
+          }}
+        >
+          <Text style={gstyles.table_TITLE}>Buts</Text>
+        </DataTable.Title>
+        <DataTable.Title
+          style={{
+            justifyContent: 'center',
+            flex: flexValues.playedMatches,
+          }}
+        >
+          <Text style={gstyles.table_TITLE}>Matchs</Text>
+        </DataTable.Title>
+      </DataTable.Header>
+
+      <ScrollView>
+        {filteredPlayList.map((play, index) => {
+          return (
+            <DataTable.Row
+              key={index}
+              style={{ height: 60, borderBottomWidth: 1 }}
             >
-              Club
-            </Text>
-          </DataTable.Title>
-          <DataTable.Title
-            style={{
-              justifyContent: 'center',
-            }}
-          >
-            <Text style={gstyles.table_TITLE}>Pos</Text>
-          </DataTable.Title>
-          <DataTable.Title
-            style={{
-              justifyContent: 'center',
-            }}
-          >
-            <Text style={gstyles.table_TITLE}>Buts</Text>
-          </DataTable.Title>
-          <DataTable.Title
-            style={{
-              justifyContent: 'center',
-            }}
-          >
-            <Text style={gstyles.table_TITLE}>Matchs</Text>
-          </DataTable.Title>
-        </DataTable.Header>
-
-        <ScrollView>
-          {filteredPlayList.map((play, index) => {
-            return (
-              <DataTable.Row
-                key={index}
-                style={{ height: 60, justifyContent: 'center' }}
+              <DataTable.Cell
+                style={{
+                  justifyContent: 'center',
+                  flex: flexValues.season,
+                }}
               >
-                <DataTable.Cell
-                  style={{
-                    justifyContent: 'center',
-                  }}
-                >
-                  <Text style={gstyles.table_CELL}>
-                    {toString(
-                      seasonList.find((season: Season) => {
-                        return season.id == play.seasonId
-                      })!
-                    )}
-                  </Text>
-                </DataTable.Cell>
+                <Text style={gstyles.table_CELL}>
+                  {toString(
+                    seasonList.find((season: Season) => {
+                      return season.id == play.seasonId
+                    })!
+                  )}
+                </Text>
+              </DataTable.Cell>
 
-                <DataTable.Cell
+              <DataTable.Cell
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flex: flexValues.club,
+                }}
+              >
+                <View
                   style={{
+                    flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    flex: clubFlex,
                   }}
                 >
-                  <View
-                    style={{
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      alignItems: 'center',
+                  <Image
+                    style={[gstyles.logo_M]}
+                    resizeMode="center"
+                    source={{
+                      uri: clubList.find((club: Club) => {
+                        return club.name == play.clubName
+                      })!.logo,
                     }}
-                  >
-                    <Image
-                      style={[gstyles.logo_M]}
-                      resizeMode="center"
-                      source={
-                        clubList.find((club: Club) => {
-                          return club.name == play.clubName
-                        })!.logo
-                      }
-                    />
+                  />
 
-                    <Text style={gstyles.table_CELL_SMALL}>
-                      {play.clubName}
-                    </Text>
-                  </View>
-                </DataTable.Cell>
+                  <Text style={gstyles.table_CELL_SMALL}>{play.clubName}</Text>
+                </View>
+              </DataTable.Cell>
 
-                {/*<DataTable.Cell>
+              {/*<DataTable.Cell>
                   <Text style={gstyles.table_CELL_SMALL}>{play.clubName}</Text>
                 </DataTable.Cell>*/}
 
-                <DataTable.Cell
-                  style={{
-                    justifyContent: 'center',
-                  }}
-                >
-                  <Text style={gstyles.table_CELL}>{play.squadNumber}</Text>
-                </DataTable.Cell>
+              <DataTable.Cell
+                style={{
+                  justifyContent: 'center',
+                  flex: flexValues.squadNumber,
+                }}
+              >
+                <Text style={gstyles.table_CELL}>{play.squadNumber}</Text>
+              </DataTable.Cell>
 
-                <DataTable.Cell
-                  style={{
-                    justifyContent: 'center',
-                  }}
-                >
-                  <Text style={gstyles.table_CELL}>{play.scoredGoal}</Text>
-                </DataTable.Cell>
+              <DataTable.Cell
+                style={{
+                  justifyContent: 'center',
+                  flex: flexValues.scoredGoal,
+                }}
+              >
+                <Text style={gstyles.table_CELL}>{play.scoredGoal}</Text>
+              </DataTable.Cell>
 
-                <DataTable.Cell
-                  style={{
-                    justifyContent: 'center',
-                  }}
-                >
-                  <Text style={gstyles.table_CELL}>{play.playedMatches}</Text>
-                </DataTable.Cell>
-              </DataTable.Row>
-            )
-          })}
-        </ScrollView>
-      </DataTable>
+              <DataTable.Cell
+                style={{
+                  justifyContent: 'center',
+                  flex: flexValues.playedMatches,
+                }}
+              >
+                <Text style={gstyles.table_CELL}>{play.playedMatches}</Text>
+              </DataTable.Cell>
+            </DataTable.Row>
+          )
+        })}
+      </ScrollView>
     </View>
   )
 }

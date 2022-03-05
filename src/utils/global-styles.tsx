@@ -159,19 +159,19 @@ export const gstyles = StyleSheet.create({
   table_TITLE: {
     color: '#666',
     fontFamily: 'Regular',
-    fontSize: 18,
+    fontSize: 14,
   },
 
   table_CELL: {
     color: '#000',
     fontFamily: 'Regular',
-    fontSize: 16,
+    fontSize: 15,
   },
 
   table_CELL_SMALL: {
     color: '#000',
     fontFamily: 'Regular',
-    fontSize: 12,
+    fontSize: 11,
   },
 
   table_CELL_BOLD: {
