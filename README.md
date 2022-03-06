@@ -1,14 +1,16 @@
 # Description
-Ce projet est l'évaluation développeur React Native pour l'entreprise Sportyma.
+Ce projet répond à l'évaluation React Native de l'entreprise Sportyma.
 
 # Outils
 L'application a été développée avec Expo.
 Les modules utilisés sont:
 - react-hook-form
-- redux, expo-image-picker
+- redux
+- expo-image-picker
 - react-navigation
-- react-native-fontawesome
-- react-native-gesture-handler.
+- react-native-fontawesome (Icônes)
+- react-native-gesture-handler (Boutons natifs)
+- react-native-paper (DataTable)
 
 L'IDE utilisé est WebStorm.
 
