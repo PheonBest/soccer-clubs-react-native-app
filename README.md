@@ -1,7 +1,7 @@
-#Description
+# Description
 Ce projet est l'évaluation développeur React Native pour l'entreprise Sportyma.
 
-#Outils
+# Outils
 L'application a été développée avec Expo.
 Les modules utilisés sont:
 - react-hook-form
@@ -12,20 +12,20 @@ Les modules utilisés sont:
 
 L'IDE utilisé est WebStorm.
 
-#Données
+# Données
 Le modèle de données est le suivant:
 ![Alt text](documentation/uml-sportyma-eval.drawio.png?raw=true "Modèle de données")
 
 Deux dataset ont été utilisés, à savoir celui de soccer-wiki et de world_countries_list.
 
-#Fonctionnalités
+# Fonctionnalités
 - Accéder à la liste des clubs.
 - Accéder à l'historique des clubs d'un joueur.
 - Accéder aux statiques d'un joueur par club et par saison.
 - Saisir un club.
 - Supporter l'orientation en mode portrait et paysage.
 
-#Ecrans
+# Ecrans
 
 L'application comporte une page d'accueil correspondante à une liste de clubs.
 
@@ -34,7 +34,7 @@ Lors d’un clic sur le club, aﬃchage d’une page de détails du club, ainsi 
 #Avis aux développeurs
 La génération des données est paramétrable (choix du nombre de clubs, de saisons, de joueurs par club).
 
-###Installation:
+### Installation:
 * git clone 
 * Au niveau de la racine: yarn install 
 * Au niveau src/assets/: yarn install
@@ -42,7 +42,7 @@ La génération des données est paramétrable (choix du nombre de clubs, de sai
 Utilisation:
 Exécuter la commande "yarn start" à la racine du projet.
 
-#P-S:
+# P-S:
 J'espère que l'application vous plaira.
 
 Bien cordialement,
