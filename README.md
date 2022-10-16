@@ -1,5 +1,6 @@
 # Description
 This is a soccer club management showcase app ⚽
+
 I hope you will find this sample app useful ! You can use its components freely if you credit me 😊
 
 
