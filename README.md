@@ -1,51 +1,44 @@
 # Description
-Ce projet répond à l'évaluation React Native de l'entreprise Sportyma.
+This is a soccer club management showcase app.
 
-# Outils
-L'application a été développée avec Expo.
-Les modules utilisés sont:
-- react-hook-form
-- redux
-- expo-image-picker
-- react-navigation
-- react-native-fontawesome (Icônes)
-- react-native-gesture-handler (Boutons natifs)
-- react-native-paper (DataTable)
+# How to download the application ?
+Go to Github's "Releases" section and download the latest .apk file.
 
-L'IDE utilisé est WebStorm.
+# Tools
+The app has been developed with Expo
+The used JS libraries are:
+- react-hook-form: manage forms
+- redux: actions and states management
+- expo-image-picker: image picker
+- react-navigation: native navigation tab
+- react-native-fontawesome : icons
+- react-native-gesture-handler: native buttons 
+- react-native-paper : display data in tables
 
-# Données
-Le modèle de données est le suivant:
-![Alt text](documentation/uml-sportyma-eval.drawio.png?raw=true "Modèle de données")
+# Data
+The data model is the following:
+![Alt text](documentation/uml-sportyma-eval.drawio.png?raw=true "Data model")
 
-Deux dataset ont été utilisés, à savoir celui de soccer-wiki et de world_countries_list.
+Two datasets were used, i.e soccer-wiki and world_countries_list ones.
 
-# Fonctionnalités
-- Accéder à la liste des clubs.
-- Accéder à l'historique des clubs d'un joueur.
-- Accéder aux statiques d'un joueur par club et par saison.
-- Saisir un club.
-- Supporter l'orientation en mode portrait et paysage.
+# Features
+- View clubs list.
+- View a player’s clubs history.
+- View the statistics of a player per club per season.
+- Create a club.
+- Adapt to landscape and portrait orientation.
 
-# Ecrans
+# Screens
+The app includes a homepage that shows a list of soccer clubs.
+When we click on a club, display the club’s details page and its players of the current season.
 
-L'application comporte une page d'accueil correspondante à une liste de clubs.
-
-Lors d’un clic sur le club, aﬃchage d’une page de détails du club, ainsi que la liste de ses joueurs pour la saison courante.
-
-#Avis aux développeurs
-La génération des données est paramétrable (choix du nombre de clubs, de saisons, de joueurs par club).
+# Developpers Note
+The shown data is generated. It can be parameterized (choice of the number of clubs, seasons and th enumber of players per club).
 
 ### Installation:
 * git clone 
-* Au niveau de la racine: yarn install 
-* Au niveau src/assets/: yarn install
+* At root level: yarn install 
+* In src/assets/: yarn install
 
-Utilisation:
-Exécuter la commande "yarn start" à la racine du projet.
-
-# P-S:
-J'espère que l'application vous plaira.
-
-Bien cordialement,
-Antonin Marxer
+Usage:
+Execute "yarn start" at the root of the project.
